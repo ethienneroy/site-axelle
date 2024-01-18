@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import "./globals.css";
-import { getStrapiMedia, getStrapiURL } from "./utils/api-helpers";
-import { fetchAPI } from "./utils/fetch-api";
+import {getStrapiMedia, getStrapiURL} from "./utils/api-helpers";
+import {fetchAPI} from "./utils/fetch-api";
 
-import { i18n } from "../../../i18n-config";
+import {i18n} from "../../../i18n-config";
 import Banner from "./components/Banner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import { FALLBACK_SEO } from "@/app/[lang]/utils/constants";
+import {FALLBACK_SEO} from "@/app/[lang]/utils/constants";
 
 
 async function getGlobal(lang: string): Promise<any> {
@@ -16,7 +16,7 @@ async function getGlobal(lang: string): Promise<any> {
   if (!token) throw new Error("The Strapi API Token environment variable is not set.");
 
   const path = `/global`;
-  const options = { headers: { Authorization: `Bearer ${token}` } };
+  const options = {headers: {Authorization: `Bearer ${token}`}};
 
   const urlParamsObject = {
     populate: [
@@ -36,13 +36,13 @@ async function getGlobal(lang: string): Promise<any> {
   return await fetchAPI(path, urlParamsObject, options);
 }
 
-export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
+export async function generateMetadata({params}: { params: { lang: string } }): Promise<Metadata> {
   const meta = await getGlobal(params.lang);
 
   if (!meta.data) return FALLBACK_SEO;
 
-  const { metadata, favicon } = meta.data.attributes;
-  const { url } = favicon.data.attributes;
+  const {metadata, favicon} = meta.data.attributes;
+  const {url} = favicon.data.attributes;
 
   return {
     title: metadata.metaTitle,
@@ -54,17 +54,23 @@ export async function generateMetadata({ params }: { params: { lang: string } })
 }
 
 export default async function RootLayout({
-  children,
-  params,
-}: {
+                                           children,
+                                           params,
+                                         }: {
   children: React.ReactNode;
   params: { lang: string };
 }) {
   const global = await getGlobal(params.lang);
   // TODO: CREATE A CUSTOM ERROR PAGE
-  if (!global.data) return null;
+  if (!global.data) {
+    console.log('jai pas de data')
+    return (<html lang={params.lang}>
+    <body><h1>ici criss</h1>
+    </body>
+    </html>)
+  }
 
-  const { notificationBanner, navbar, footer } = global.data.attributes;
+  const {notificationBanner, navbar, footer} = global.data.attributes;
 
   const navbarLogoUrl = getStrapiMedia(
     navbar.navbarLogo.logoImg.data.attributes.url
@@ -76,34 +82,34 @@ export default async function RootLayout({
 
   return (
     <html lang={params.lang}>
-      <body>
-        <div className="wrapper">
-          <Navbar
-            links={navbar.links}
-            logoUrl={navbarLogoUrl}
-            logoText={navbar.navbarLogo.logoText}
-          />
+    <body>
+    <div className="wrapper">
+      <Navbar
+        links={navbar.links}
+        logoUrl={navbarLogoUrl}
+        logoText={navbar.navbarLogo.logoText}
+      />
 
-          <main className="dark:bg-black dark:text-gray-100 min-h-screen">
-            {children}
-          </main>
+      <main className="dark:bg-black dark:text-gray-100 min-h-screen">
+        {children}
+      </main>
 
-          <Banner data={notificationBanner} />
+      <Banner data={notificationBanner}/>
 
-          <Footer
-            logoUrl={footerLogoUrl}
-            logoText={footer.footerLogo.logoText}
-            menuLinks={footer.menuLinks}
-            categoryLinks={footer.categories.data}
-            legalLinks={footer.legalLinks}
-            socialLinks={footer.socialLinks}
-          />
-        </div>
-      </body>
+      <Footer
+        logoUrl={footerLogoUrl}
+        logoText={footer.footerLogo.logoText}
+        menuLinks={footer.menuLinks}
+        categoryLinks={footer.categories.data}
+        legalLinks={footer.legalLinks}
+        socialLinks={footer.socialLinks}
+      />
+    </div>
+    </body>
     </html>
   );
 }
 
 export async function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ lang: locale }));
+  return i18n.locales.map((locale) => ({lang: locale}));
 }

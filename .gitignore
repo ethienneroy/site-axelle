@@ -3,3 +3,5 @@ readme-images
 .vscode
 .DS_Store
 **/.yarn
+.idea
+.env
