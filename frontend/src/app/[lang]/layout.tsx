@@ -1,5 +1,13 @@
 import type {Metadata} from "next";
 import "./globals.css";
+import "./styles/style.css"
+import "./styles/_mixins.css"
+import "./styles/_variables.css"
+import "./styles/bootstrap.min.css"
+import "./styles/custom.css"
+import "./styles/plugins.css"
+import "./styles/style.css"
+import "./styles/elements/_breadcrumb.css"
 import {getStrapiMedia, getStrapiURL} from "./utils/api-helpers";
 import {fetchAPI} from "./utils/fetch-api";
 
@@ -17,13 +25,15 @@ async function getGlobal(lang: string): Promise<any> {
 
   const path = `/global`;
   const options = {headers: {Authorization: `Bearer ${token}`}};
+  console.log('current lang is', lang)
 
   const urlParamsObject = {
     populate: [
       "metadata.shareImage",
       "favicon",
       "notificationBanner.link",
-      "navbar.links",
+      "navbar.links.links",
+      "navbar.links.link",
       "navbar.navbarLogo.logoImg",
       "footer.footerLogo.logoImg",
       "footer.menuLinks",
@@ -63,9 +73,8 @@ export default async function RootLayout({
   const global = await getGlobal(params.lang);
   // TODO: CREATE A CUSTOM ERROR PAGE
   if (!global.data) {
-    console.log('jai pas de data')
     return (<html lang={params.lang}>
-    <body><h1>ici criss</h1>
+    <body><h1>Here i am</h1>
     </body>
     </html>)
   }
@@ -83,11 +92,14 @@ export default async function RootLayout({
   return (
     <html lang={params.lang}>
     <body>
-    <div className="wrapper">
+    <div id={"wrapper"} className="wrapper">
       <Navbar
         links={navbar.links}
+        notificationBanner={notificationBanner}
         logoUrl={navbarLogoUrl}
         logoText={navbar.navbarLogo.logoText}
+        companyPhone={global.data.attributes.CompanyPhone}
+        companyEmail={global.data.attributes.CompanyEmail}
       />
 
       <main className="dark:bg-black dark:text-gray-100 min-h-screen">

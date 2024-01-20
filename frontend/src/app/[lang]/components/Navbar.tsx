@@ -1,10 +1,10 @@
 "use client";
 import Logo from "./Logo";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import {usePathname} from "next/navigation";
+import {Dialog} from "@headlessui/react";
+import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
+import {useState} from "react";
 
 interface NavLink {
   id: number;
@@ -17,7 +17,7 @@ interface MobileNavLink extends NavLink {
   closeMenu: () => void;
 }
 
-function NavLink({ url, text }: NavLink) {
+function NavLink({url, text}: NavLink) {
   const path = usePathname();
 
   return (
@@ -34,7 +34,7 @@ function NavLink({ url, text }: NavLink) {
   );
 }
 
-function MobileNavLink({ url, text, closeMenu }: MobileNavLink) {
+function MobileNavLink({url, text, closeMenu}: MobileNavLink) {
   const path = usePathname();
   const handleClick = () => {
     closeMenu();
@@ -55,78 +55,96 @@ function MobileNavLink({ url, text, closeMenu }: MobileNavLink) {
 }
 
 export default function Navbar({
-  links,
-  logoUrl,
-  logoText,
-}: {
+                                 links,
+                                 notificationBanner,
+                                 logoUrl,
+                                 logoText,
+                                 companyPhone,
+                                 companyEmail
+                               }: {
   links: Array<NavLink>;
   logoUrl: string | null;
   logoText: string | null;
+  notificationBanner: any | null;
+  companyPhone?: string;
+  companyEmail?: string;
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => {
     setMobileMenuOpen(false);
   };
+  console.log('links are', links)
   return (
-    <div className="p-4 dark:bg-black dark:text-gray-100">
-      <div className="container flex justify-between h-16 mx-auto px-0 sm:px-6">
-        <Logo src={logoUrl}>
-          {logoText && <h2 className="text-2xl font-bold">{logoText}</h2>}
-        </Logo>
-
-        <div className="items-center flex-shrink-0 hidden lg:flex">
-          <ul className="items-stretch hidden space-x-3 lg:flex">
-            {links.map((item: NavLink) => (
-              <NavLink key={item.id} {...item} />
-            ))}
-          </ul>
-        </div>
-
-        <Dialog
-          as="div"
-          className="lg:hidden"
-          open={mobileMenuOpen}
-          onClose={setMobileMenuOpen}
-        >
-          <div className="fixed inset-0 z-40 bg-gray-600 bg-opacity-75" />{" "}
-          {/* Overlay */}
-          <Dialog.Panel className="fixed inset-y-0 rtl:left-0 ltr:right-0 z-50 w-full overflow-y-auto bg-gray-800 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-inset sm:ring-white/10">
-            <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Strapi</span>
-                {logoUrl && <img className="h-8 w-auto" src={logoUrl} alt="" />}
-              </a>
-              <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-white"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+    <div className="header">
+      <div className="header-toparea">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-md-7 col-sm-6 col-12">
+              {(companyPhone || companyEmail) && <div className="header-topinfo">
+                <ul>
+                  {companyEmail && <li>Contactez-nous : <a href={`mailto://${companyEmail}`}>{companyEmail}</a></li>}
+                  {companyPhone && <li><a href={`tel://${companyPhone}}`}>{companyPhone}</a></li>}
+                </ul>
+              </div>}
             </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-700">
-                <div className="space-y-2 py-6">
-                  {links.map((item) => (
-                    <MobileNavLink
-                      key={item.id}
-                      closeMenu={closeMenu}
-                      {...item}
-                    />
-                  ))}
-                </div>
+            {notificationBanner && notificationBanner.link && <div className="col-md-5 col-sm-6 col-12">
+              <div className="header-topbutton">
+                <a href={notificationBanner.link.url}
+                   className="tm-button tm-button-white">{notificationBanner.link.text}</a>
+              </div>
+            </div>}
+          </div>
+        </div>
+      </div>
+
+      <div className="header-bottomarea">
+        <div className="container">
+          <div className="header-bottominner">
+            <div className="header-logo">
+              <a href="index.html">
+                <Logo src={logoUrl}>
+                  {logoText && <h2 className="text-2xl font-bold">{logoText}</h2>}
+                </Logo>
+              </a>
+            </div>
+            <nav className="tm-navigation">
+              <ul>
+                {links && links.length && links.map((link: any): any => {
+                  if (link.isList) {
+                    return (<li className="tm-navigation-dropdown"><a href="index.html">{link.title}</a>
+                      <ul>
+                        {link.links && link.links.map((_link: any) =>
+                          <li><a href={_link.url}>{_link.text}</a></li>
+                        )
+                        }
+                      </ul>
+                    </li>)
+                  } else {
+                    return <li><a href={link.link.url}>{link.link.text}</a></li>
+                  }
+                })}
+              </ul>
+            </nav>
+            {/*<div className="header-icons">*/}
+            {/*  <ul>*/}
+            {/*    <li><a href="cart.html"><i className="zmdi zmdi-shopping-cart"></i></a></li>*/}
+            {/*    <li><a href="#" className="header-searchtrigger"><i className="zmdi zmdi-search"></i></a></li>*/}
+            {/*  </ul>*/}
+            {/*</div>*/}
+            <div className="header-searchbox">
+              <div className="header-searchinner">
+                <form action="#" className="header-searchform">
+                  <input type="text" placeholder="Enter search keyword.."/>
+                </form>
+                <button className="search-close"><i className="zmdi zmdi-close"></i></button>
               </div>
             </div>
-          </Dialog.Panel>
-        </Dialog>
-        <button
-          className="p-4 lg:hidden"
-          onClick={() => setMobileMenuOpen(true)}
-        >
-          <Bars3Icon className="h-7 w-7 text-gray-100" aria-hidden="true" />
-        </button>
+          </div>
+          <div className="header-mobilemenu clearfix">
+            <div className="tm-mobilenav"></div>
+          </div>
+        </div>
       </div>
     </div>
-  );
+  )
 }

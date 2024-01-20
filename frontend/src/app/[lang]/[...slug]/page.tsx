@@ -26,6 +26,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 
 
 export default async function PageRoute({params}: Props) {
+    console.log('params', params)
     const page = await getPageBySlug(params.slug, params.lang);
     if (page.data.length === 0) return null;
     const contentSections = page.data[0].attributes.contentSections;
