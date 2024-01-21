@@ -134,3 +134,15 @@ body {
 .react-slideshow-container [aria-label="Next Slide"] {
   margin-right: 1rem;
 }
+
+
+.border-none {
+  button {
+    border: none;
+    padding: 0 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -4,7 +4,14 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {Dialog} from "@headlessui/react";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
-import {useState} from "react";
+import React, {useState} from "react";
+import {isMobile} from "react-device-detect"
+import * as Accordion from '@radix-ui/react-accordion';
+// import {AccordionContent} from "@radix-ui/react-accordion";
+import classNames from "classnames";
+import {ChevronDownIcon} from "@radix-ui/react-icons";
+
+
 
 interface NavLink {
   id: number;
@@ -34,24 +41,47 @@ function NavLink({url, text}: NavLink) {
   );
 }
 
-function MobileNavLink({url, text, closeMenu}: MobileNavLink) {
+function MobileNavLink({url, text, closeMenu, isList, link, title, links}: any) {
   const path = usePathname();
   const handleClick = () => {
     closeMenu();
   };
-  return (
-    <a className="flex">
-      <Link
-        href={url}
-        onClick={handleClick}
-        className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-100 hover:bg-gray-900 ${
-          path === url && "dark:text-violet-400 dark:border-violet-400"
-        }}`}
+  if (!isList) {
+    return (
+      <a className="flex">
+        <a
+          href={link.url}
+          // onClick={handleClick}
+          className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-100 hover:bg-gray-900 ${
+            path === url && "dark:text-violet-400 dark:border-violet-400"
+          }}`}
+        >
+          {link.text}
+        </a>
+      </a>
+    );
+  } else {
+    console.log('link', link)
+    // @ts-ignore
+    return (
+      <Accordion.Root
+        className="bg-white border-none"
+        type="single"
+        // defaultValue="item-1"
+        collapsible
+        style={{border: 'none!important;'}}
       >
-        {text}
-      </Link>
-    </a>
-  );
+        <Accordion.Item value="item-1">
+          <AccordionTrigger><span className={'text-base'}>{title}</span></AccordionTrigger>
+          {links.map((_link: any) => (
+            <AccordionContent style={{padding: '6px'}}>
+              <a href={_link.url}>{_link.text}</a>
+            </AccordionContent>
+          ))}
+        </Accordion.Item>
+      </Accordion.Root>
+    )
+  }
 }
 
 export default function Navbar({
@@ -74,6 +104,8 @@ export default function Navbar({
     setMobileMenuOpen(false);
   };
   console.log('links are', links)
+
+
   return (
     <div className="header">
       <div className="header-toparea">
@@ -107,7 +139,7 @@ export default function Navbar({
                 </Logo>
               </a>
             </div>
-            <nav className="tm-navigation">
+            {!isMobile && <nav className="tm-navigation">
               <ul>
                 {links && links.length && links.map((link: any): any => {
                   if (link.isList) {
@@ -124,27 +156,81 @@ export default function Navbar({
                   }
                 })}
               </ul>
-            </nav>
-            {/*<div className="header-icons">*/}
-            {/*  <ul>*/}
-            {/*    <li><a href="cart.html"><i className="zmdi zmdi-shopping-cart"></i></a></li>*/}
-            {/*    <li><a href="#" className="header-searchtrigger"><i className="zmdi zmdi-search"></i></a></li>*/}
-            {/*  </ul>*/}
-            {/*</div>*/}
-            <div className="header-searchbox">
-              <div className="header-searchinner">
-                <form action="#" className="header-searchform">
-                  <input type="text" placeholder="Enter search keyword.."/>
-                </form>
-                <button className="search-close"><i className="zmdi zmdi-close"></i></button>
-              </div>
-            </div>
-          </div>
-          <div className="header-mobilemenu clearfix">
-            <div className="tm-mobilenav"></div>
+            </nav>}
+            {isMobile && <><Dialog
+              as="div"
+              className="lg:hidden"
+              open={mobileMenuOpen}
+              onClose={setMobileMenuOpen}
+            >
+              <div className="fixed inset-0 z-40 bg-white bg-opacity-75"/>
+              {" "}
+              {/* Overlay */}
+              <Dialog.Panel
+                className="fixed inset-y-0 rtl:left-0 ltr:right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-inset sm:ring-white/10">
+                <div className="flex items-center justify-between">
+                  <a href="#" className="-m-1.5 p-1.5">
+                    {/*<span className="sr-only">Strapi</span>*/}
+                    {logoUrl && <img className="h-8 w-auto" src={logoUrl} alt=""/>}
+                  </a>
+                  <button
+                    type="button"
+                    className="-m-2.5 rounded-md p-2.5 text-black"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="sr-only">Close menu</span>
+                    <XMarkIcon className="h-6 w-6" aria-hidden="true"/>
+                  </button>
+                </div>
+                <div className="mt-6 flow-root">
+                  <div className="-my-6 divide-y divide-gray-700">
+                    <div className="space-y-2 py-6">
+                      {links.map((item) => (
+                        <MobileNavLink
+                          key={item.id}
+                          closeMenu={closeMenu}
+                          {...item} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Dialog.Panel>
+            </Dialog>
+              <button
+                className="lg:hidden border-r-5"
+                onClick={() => setMobileMenuOpen(true)}
+              >
+                <Bars3Icon className="h-7 w-7 text-black" aria-hidden="true"/>
+              </button>
+            </>
+            }
           </div>
         </div>
       </div>
     </div>
   )
 }
+
+// @ts-ignore
+const AccordionTrigger: any = React.forwardRef(({ children, className, ...props }, forwardedRef) => (
+  <Accordion.Header className="AccordionHeader">
+    <Accordion.Trigger
+      // className={classNames('AccordionTrigger', className)}
+      {...props}
+      ref={forwardedRef}
+    >
+      {children}
+      <ChevronDownIcon className="AccordionChevron" aria-hidden />
+    </Accordion.Trigger>
+  </Accordion.Header>
+));
+// @ts-ignore
+const AccordionContent = React.forwardRef(({ children, className, ...props }, forwardedRef) => (
+  <Accordion.Content
+    className={classNames('AccordionContent', className)}
+    {...props}
+    ref={forwardedRef}
+  >
+    <div className="AccordionContentText">{children}</div>
+  </Accordion.Content>
+));
