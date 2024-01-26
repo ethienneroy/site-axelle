@@ -38,7 +38,11 @@
         "sections.pricing",
         "sections.lead-form",
         "sections.features",
-        "sections.heading"
+        "sections.heading",
+        "sections.hero-slide",
+        "sections.slide",
+        "sections.about-us",
+        "sections.call-to-action"
       ],
       "pluginOptions": {
         "i18n": {

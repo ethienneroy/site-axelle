@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_sections_aboutuses",
+  "info": {
+    "displayName": "AboutUs",
+    "icon": "store",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "richtext"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "title": {
+      "type": "richtext"
+    },
+    "link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "links.link"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_elements_hero_slides",
+  "info": {
+    "displayName": "HeroSlide",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "Slides": {
+      "displayName": "Slide",
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.slide"
+    }
+  }
+}

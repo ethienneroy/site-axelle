@@ -4,7 +4,7 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {Dialog} from "@headlessui/react";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {isMobile} from "react-device-detect"
 import * as Accordion from '@radix-ui/react-accordion';
 // import {AccordionContent} from "@radix-ui/react-accordion";
@@ -48,8 +48,8 @@ function MobileNavLink({url, text, closeMenu, isList, link, title, links}: any) 
   };
   if (!isList) {
     return (
-      <a className="flex">
-        <a
+      <span className="flex">
+        <Link
           href={link.url}
           // onClick={handleClick}
           className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-100 hover:bg-gray-900 ${
@@ -57,8 +57,8 @@ function MobileNavLink({url, text, closeMenu, isList, link, title, links}: any) 
           }}`}
         >
           {link.text}
-        </a>
-      </a>
+        </Link>
+      </span>
     );
   } else {
     console.log('link', link)
@@ -73,9 +73,9 @@ function MobileNavLink({url, text, closeMenu, isList, link, title, links}: any) 
       >
         <Accordion.Item value="item-1">
           <AccordionTrigger><span className={'text-base'}>{title}</span></AccordionTrigger>
-          {links.map((_link: any) => (
-            <AccordionContent style={{padding: '6px'}}>
-              <a href={_link.url}>{_link.text}</a>
+          {links.map((_link: any, key: number) => (
+            <AccordionContent key={key} style={{padding: '6px'}}>
+              <Link href={_link.url}>{_link.text}</Link>
             </AccordionContent>
           ))}
         </Accordion.Item>
@@ -103,26 +103,39 @@ export default function Navbar({
   const closeMenu = () => {
     setMobileMenuOpen(false);
   };
-  console.log('links are', links)
+  const [scrollY, setScrollY] = useState(0);
 
+  const onScroll = useCallback(() => {
+    const { pageYOffset, scrollY } = window;
+    setScrollY(window.pageYOffset);
+  }, []);
+
+  useEffect(() => {
+    //add eventlistener to window
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // remove event on unmount to prevent a memory leak with the cleanup
+    return () => {
+      window.removeEventListener("scroll", onScroll, { passive: true });
+    }
+  }, []);
 
   return (
-    <div className="header">
+    <div className={`header ${scrollY > 95 ? "sticky-active" : ''}`}>
       <div className="header-toparea">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-7 col-sm-6 col-12">
               {(companyPhone || companyEmail) && <div className="header-topinfo">
                 <ul>
-                  {companyEmail && <li>Contactez-nous : <a href={`mailto://${companyEmail}`}>{companyEmail}</a></li>}
-                  {companyPhone && <li><a href={`tel://${companyPhone}}`}>{companyPhone}</a></li>}
+                  {companyEmail && <li>Contactez-nous : <Link href={`mailto://${companyEmail}`}>{companyEmail}</Link></li>}
+                  {companyPhone && <li><Link href={`tel://${companyPhone}}`}>{companyPhone}</Link></li>}
                 </ul>
               </div>}
             </div>
             {notificationBanner && notificationBanner.link && <div className="col-md-5 col-sm-6 col-12">
               <div className="header-topbutton">
-                <a href={notificationBanner.link.url}
-                   className="tm-button tm-button-white">{notificationBanner.link.text}</a>
+                <Link href={notificationBanner.link.url}
+                   className="tm-button tm-button-white">{notificationBanner.link.text}</Link>
               </div>
             </div>}
           </div>
@@ -133,11 +146,11 @@ export default function Navbar({
         <div className="container">
           <div className="header-bottominner">
             <div className="header-logo">
-              <a href="index.html">
+              <Link href="index.html">
                 <Logo src={logoUrl}>
                   {logoText && <h2 className="text-2xl font-bold">{logoText}</h2>}
                 </Logo>
-              </a>
+              </Link>
             </div>
             {!isMobile && <nav className="tm-navigation">
               <ul>
@@ -146,13 +159,13 @@ export default function Navbar({
                     return (<li className="tm-navigation-dropdown"><a href="index.html">{link.title}</a>
                       <ul>
                         {link.links && link.links.map((_link: any) =>
-                          <li><a href={_link.url}>{_link.text}</a></li>
+                          <li><Link href={_link.url}>{_link.text}</Link></li>
                         )
                         }
                       </ul>
                     </li>)
                   } else {
-                    return <li><a href={link.link.url}>{link.link.text}</a></li>
+                    return <li><Link href={link.link.url}>{link.link.text}</Link></li>
                   }
                 })}
               </ul>

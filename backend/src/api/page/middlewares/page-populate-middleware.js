@@ -13,6 +13,9 @@ const populate = {
       buttons: {
         populate: true,
       },
+      'button-link': {
+        populate: true,
+      },
       feature: {
         populate: {
           fields: ["title", "description", "showLink", "newTab", "url", "text"],
@@ -34,6 +37,33 @@ const populate = {
       submitButton: {
         populate: true,
       },
+      "hero-slide": {
+        populate: ["slides"]
+      },
+      button: {
+        populate: true
+      },
+      link: {
+        populate: true
+      },
+      image: {populate: true},
+      background: {populate: true},
+      AboutUs: {
+        populate: {
+          image: {
+            fields: ["url", "alternativeText", "caption", "width", "height"],
+          },
+        }
+      },
+      Slides: {
+        populate: {
+          fields: ["title", "description"],
+          background: {
+            fields: ["url", "alternativeText", "caption", "width", "height"],
+          },
+          link: true
+        }
+      }
     },
   },
   seo: {

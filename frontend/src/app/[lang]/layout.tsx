@@ -16,6 +16,8 @@ import Banner from "./components/Banner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import {FALLBACK_SEO} from "@/app/[lang]/utils/constants";
+import Head from "next/head";
+import Script from "next/script";
 
 
 async function getGlobal(lang: string): Promise<any> {
@@ -39,7 +41,7 @@ async function getGlobal(lang: string): Promise<any> {
       "footer.menuLinks",
       "footer.legalLinks",
       "footer.socialLinks",
-      "footer.categories",
+      "footer.categories"
     ],
     locale: lang,
   };
