@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_elements_contact_informations",
+  "info": {
+    "displayName": "ContactInformations",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "informations": {
+      "displayName": "information",
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.information"
+    }
+  }
+}

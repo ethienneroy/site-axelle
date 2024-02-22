@@ -42,7 +42,10 @@
         "sections.hero-slide",
         "sections.slide",
         "sections.about-us",
-        "sections.call-to-action"
+        "sections.call-to-action",
+        "sections.services-area",
+        "sections.pricing-dalia",
+        "sections.appointments"
       ],
       "pluginOptions": {
         "i18n": {

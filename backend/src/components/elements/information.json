@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_elements_information",
+  "info": {
+    "displayName": "information",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    }
+  }
+}

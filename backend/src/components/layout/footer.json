@@ -20,16 +20,6 @@
       "type": "component",
       "repeatable": true,
       "component": "links.link"
-    },
-    "socialLinks": {
-      "type": "component",
-      "repeatable": true,
-      "component": "links.social-link"
-    },
-    "categories": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::category.category"
     }
   }
 }

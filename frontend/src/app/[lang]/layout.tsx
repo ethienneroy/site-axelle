@@ -41,7 +41,12 @@ async function getGlobal(lang: string): Promise<any> {
       "footer.menuLinks",
       "footer.legalLinks",
       "footer.socialLinks",
-      "footer.categories"
+      "footer.categories",
+      "businessInformations",
+      "businessInformations.title",
+      "businessInformations.informations",
+      "SocialLinks",
+      "SocialLinks.links",
     ],
     locale: lang,
   };
@@ -81,7 +86,7 @@ export default async function RootLayout({
     </html>)
   }
 
-  const {notificationBanner, navbar, footer} = global.data.attributes;
+  const {notificationBanner, navbar, footer, businessInformations, SocialLinks: socialLinks} = global.data.attributes;
 
   const navbarLogoUrl = getStrapiMedia(
     navbar.navbarLogo.logoImg.data.attributes.url
@@ -104,19 +109,20 @@ export default async function RootLayout({
         companyEmail={global.data.attributes.CompanyEmail}
       />
 
-      <main className="dark:bg-black dark:text-gray-100 min-h-screen">
+      <main className="min-h-screen">
         {children}
       </main>
 
-      <Banner data={notificationBanner}/>
+      {/*<Banner data={notificationBanner}/>*/}
 
       <Footer
         logoUrl={footerLogoUrl}
         logoText={footer.footerLogo.logoText}
         menuLinks={footer.menuLinks}
-        categoryLinks={footer.categories.data}
+        // categoryLinks={footer.categories.data}
         legalLinks={footer.legalLinks}
-        socialLinks={footer.socialLinks}
+        socialLinks={socialLinks}
+        businessInfos={businessInformations}
       />
     </div>
     </body>

@@ -16,7 +16,7 @@ export default async function RootRoute({params}: { params: { lang: string } }) 
       if (page.data.length === 0) return null
       const contentSections = page.data[0].attributes.contentSections
       return contentSections.map((section: any, index: number) =>
-        sectionRenderer(section, index)
+        sectionRenderer(section, index, params.lang)
       )
     } catch (error: any) {
       window.alert('Missing or invalid credentials')

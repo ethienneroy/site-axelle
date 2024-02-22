@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_sections_services_areas",
+  "info": {
+    "displayName": "ServicesArea",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "services": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.feature"
+    }
+  }
+}

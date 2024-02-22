@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_sections_appointments",
+  "info": {
+    "displayName": "Appointments",
+    "icon": "attachment",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "openingHoursTitle": {
+      "type": "text"
+    },
+    "openingHours": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.opening-hours"
+    },
+    "contactInfo": {
+      "displayName": "ContactInformations",
+      "type": "component",
+      "repeatable": false,
+      "component": "elements.contact-informations"
+    }
+  }
+}

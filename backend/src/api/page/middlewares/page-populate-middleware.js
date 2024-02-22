@@ -46,7 +46,27 @@ const populate = {
       link: {
         populate: true
       },
+      services: {
+        populate: {
+          link: true,
+          media: true
+        },
+
+      },
+      prices: {
+        populate: true
+      },
       image: {populate: true},
+      product_features: {populate: true},
+      media: {populate: true},
+      openingHours: {populate: true},
+      appointments: {populate: true},
+      contactInfo: {
+        populate: {
+          informations: true
+        },
+      },
+
       background: {populate: true},
       AboutUs: {
         populate: {
@@ -68,16 +88,16 @@ const populate = {
   },
   seo: {
     fields: ["metaTitle", "metaDescription"],
-    populate: { shareImage: true },
+    populate: {shareImage: true},
   }
 };
 
-module.exports = (config, { strapi }) => {
+module.exports = (config, {strapi}) => {
   // Add your own logic here.
   return async (ctx, next) => {
     ctx.query = {
       populate,
-      filters: { slug: ctx.query.filters.slug },
+      filters: {slug: ctx.query.filters.slug},
       locale: ctx.query.locale,
     };
 

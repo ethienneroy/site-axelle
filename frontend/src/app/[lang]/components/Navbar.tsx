@@ -90,7 +90,7 @@ export default function Navbar({
                                  logoUrl,
                                  logoText,
                                  companyPhone,
-                                 companyEmail
+                                 companyEmail,
                                }: {
   links: Array<NavLink>;
   logoUrl: string | null;

@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_sections_pricing_dalias",
+  "info": {
+    "displayName": "PricingDalia",
+    "icon": "restaurant",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "richtext"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "product_features": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-feature.product-feature"
+    },
+    "prices": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.plan"
+    },
+    "rightDescription": {
+      "type": "richtext"
+    }
+  }
+}
