@@ -10,11 +10,13 @@
     "strapi": "strapi"
   },
   "dependencies": {
+    "@offset-dev/strapi-calendar": "^0.1.1",
     "@strapi/plugin-i18n": "4.12.5",
     "@strapi/plugin-seo": "^1.8.0",
     "@strapi/plugin-users-permissions": "4.12.5",
     "@strapi/strapi": "4.12.5",
     "better-sqlite3": "8.7.0",
+    "moment": "^2.30.1",
     "pg": "^8.11.3"
   },
   "author": {

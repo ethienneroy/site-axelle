@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_services",
+  "info": {
+    "displayName": "service",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "integer"
+    }
+  }
+}

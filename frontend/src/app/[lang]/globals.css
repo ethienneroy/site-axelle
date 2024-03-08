@@ -4,9 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply dark:bg-black
-}
+/*body {*/
+/*  @apply dark:bg-black*/
+/*}*/
 
 
 /******************************************* 
@@ -146,4 +146,9 @@ body {
     justify-content: center;
     align-items: center;
   }
+}
+
+.MuiOutlinedInput-input {
+  padding-top: 14px!important;
+  padding-bottom: 14px!important;
 }

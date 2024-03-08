@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reservations",
+  "info": {
+    "singularName": "reservation",
+    "pluralName": "reservations",
+    "displayName": "Reservation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "start": {
+      "type": "datetime"
+    },
+    "end": {
+      "type": "datetime"
+    },
+    "message": {
+      "type": "text"
+    },
+    "client": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::client.client"
+    },
+    "Service": {
+      "type": "enumeration",
+      "enum": [
+        "massage sportif",
+        "massage détente",
+        "kinésithérapie"
+      ]
+    },
+    "note": {
+      "type": "text",
+      "private": true
+    },
+    "finished": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
