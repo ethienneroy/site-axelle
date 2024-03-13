@@ -26,13 +26,8 @@
       "relation": "oneToOne",
       "target": "api::client.client"
     },
-    "Service": {
-      "type": "enumeration",
-      "enum": [
-        "massage sportif",
-        "massage détente",
-        "kinésithérapie"
-      ]
+    "service": {
+      "type": "string"
     },
     "note": {
       "type": "text",
@@ -41,6 +36,21 @@
     "finished": {
       "type": "boolean",
       "default": false
+    },
+    "phone": {
+      "type": "string"
+    },
+    "confirmed": {
+      "type": "boolean",
+      "default": false
+    },
+    "receipt": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false,
+      "private": true
     }
   }
 }

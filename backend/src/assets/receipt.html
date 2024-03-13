@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receipt</title>
+  <style>
+    .receipt {
+      padding: 20px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+    p, h4 {
+      margin: 8px;
+    }
+    body {
+      font-family: Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .start {
+      justify-self: flex-start!important;
+    }
+    .row {
+      display:flex;
+      flex-direction: row;
+      /*align-content: center;*/
+      /*align-items: center;*/
+      /*justify-content: space-evenly;*/
+    }
+    .column {
+      display: flex;
+      flex-direction: column;
+
+      img {
+        width: 210px;
+      }
+    }
+
+    .title {
+      color: #418fdd;
+      padding-right: 55px;
+      font-size: 26px;
+    }
+    h3 {
+      color: #418fdd;
+    }
+    .margin-15 {
+      margin-top: -10px;
+    }
+    .footer-number {
+      align-self: flex-end;
+      /*position: absolute;*/
+      justify-self: flex-end;
+      color: red;
+      padding-left: 15px;
+      font-size: 18px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="receipt">
+  <div class="header">
+    <div class="row">
+      <div class="column">
+        <h1 class="title">Reçu massothérapie / Massage therapy receipt</h1>
+        <p><strong>Nom du client / Client Name : </strong>{{this.name}}</p>
+        <div class="row start">
+          <p><strong>Date</strong>: {{this.date}}</p>
+          <p><strong>Montant</strong>: {{this.price}}</p>
+          <p><strong>Durée du soin / Care duration</strong>: {{this.duration}} min</p>
+
+        </div>
+        <div class="row">
+            <h4>TOTAL: {{this.totalTx}}</h4>
+            <p>(taxes incluses)</p>
+        </div>
+        <p><strong>
+          TPS/GST :
+        </strong> 789018066RT0001 - <strong>TVQ/QST</strong> : 4031877836TQ0001</p>
+      </div>
+      <div class="column">
+        <img src="./logo.png" alt="logo">
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="column">
+        <h3>Adresse professionnelle du thérapeute / Therapist Professional Address</h3>
+        <p><strong>N°. de membre / Membership No. : 23-0083</strong></p>
+        <p><strong>Nom / Name :</strong> Axelle Jacques | <strong>Tél./Tel.</strong> : 438-868-0397</p>
+        <p>
+          <strong>Adresse / Address :</strong>
+          <p class="margin-15">261 rue Ste Ursule, J5W 1M6 <br>L'Assomption, QC, Canada </p>
+        </p>
+
+
+
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="column">
+        <p>
+       <strong>
+          Réseau des massothérapeutes professionnels du Québec / Tél. : 1 800 461-1312 / rmpq.ca
+       </strong>
+        </p>
+      </div>
+      <div class="column">
+        <p class="footer-number">
+          23-0083-{{receiptNumber}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

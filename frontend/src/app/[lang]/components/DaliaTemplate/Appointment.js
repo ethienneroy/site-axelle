@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {format} from "date-fns";
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers';
@@ -9,6 +9,8 @@ import moment from "moment";
 import {Checkmark} from 'react-checkmark'
 import {useForm, SubmitHandler, Controller} from "react-hook-form"
 import Select from "react-select";
+import {MuiTelInput} from 'mui-tel-input'
+
 
 const Appointment = ({data}) => {
   const {
@@ -16,23 +18,19 @@ const Appointment = ({data}) => {
     handleSubmit,
     watch,
     formState: {errors},
-    control
+    control,
+    reset
   } = useForm()
-  const watchAllFields = watch() // when pass nothing as argument, you are watching everything
+  const watchAllFields = watch()
 
   const getTimes = (hours) => {
     if (hours.closed) return data.lang.includes('fr') ? 'Fermé' : "Closed"
     return <>{format(new Date(`${format(new Date(), 'yyyy-MM-dd')} ${hours.opening}`), 'hh:mm')} - {format(new Date(`${format(new Date(), 'yyyy-MM-dd')} ${hours.close}`), 'hh:mm')}</>
   }
-  const [show, setShow] = useState(false)
+
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [selectedDate, setSelectedDate] = useState(new Date())
-  const [name, setName] = useState(null)
-  const [email, setEmail] = useState(null)
   const [timesAvailable, setTimesAvailable] = useState(null)
-  const [selectedService, setSelectedService] = useState(null)
-  const [message, setMessage] = useState(null)
-  const [timeSelected, setTimeSelected] = useState(null)
 
   const fetchTimes = async (date, duration) => {
     console.log('fetching', `/api/reservations?date=${moment(selectedDate).format('L')}&length=${duration}`)
@@ -45,7 +43,7 @@ const Appointment = ({data}) => {
     const subscription = watch((value, {name, type}) => {
         console.log(value, value.selectedDate, value.service)
         if (value.selectedDate && value.service) {
-          console.log('je suis ici ')
+
           fetchTimes(value.selectedDate, value.service.value.duration)
         }
       }
@@ -53,28 +51,19 @@ const Appointment = ({data}) => {
     return () => subscription.unsubscribe()
   }, [watch])
 
-  const clearForm = () => {
-    console.log('should clear the form')
-    setMessage(null)
-    setTimesAvailable(null)
-    setSelectedDate(null)
-    setSelectedService(null)
-    setName(null)
-    setEmail(null)
-    setTimeSelected(null)
-  }
   const submitForm = (data) => {
     const date = new moment(`${data.selectedDate.format('L')} ${data.time.value}`)
-    console.log('tha date', date.format('L'), data.time.value)
     const end = new moment(date).add('minutes', data.service.value.duration)
-    console.log('ending', end, data.service.value.duration)
+    console.log('service is', data.service)
     const payload = {
       "data": {
         start: date,
         end,
         email: data.email,
         name: data.name,
-        message: data.message
+        phone: data.phone,
+        message: data.name + ' | ' + data.message,
+        service: data.service.label
       }
     }
     fetch('http://localhost:1337/api/reservations', {
@@ -86,9 +75,8 @@ const Appointment = ({data}) => {
       body: JSON.stringify(payload)
     }).then((res) => {
       setFormSubmitted(true)
+      reset()
     })
-
-    console.log('should submit form', data)
   }
 
   return (
@@ -130,6 +118,19 @@ const Appointment = ({data}) => {
                       <input type="email" {...register('email')} required="required"
                              placeholder="Email*"/>
                     </div>
+                    <div className="tm-form-field tm-form-fieldhalf">
+                      <Controller
+                        name="phone"
+                        control={control}
+                        render={({field}) => <MuiTelInput
+                          {...field}
+                          forceCallingCode defaultCountry="CA"
+                          placeholder="Enter phone number"
+                        />
+                        }
+                      />
+                    </div>
+
                     <div className="tm-form-field tm-form-fieldhalf">
                       <Controller
                         name="service"
@@ -199,7 +200,8 @@ const Appointment = ({data}) => {
         </div>
       </div>
     </div>
-  );
+  )
+    ;
 };
 
 export default Appointment;

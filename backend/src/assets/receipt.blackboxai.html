@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Massage Therapy Receipt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .receipt {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      /*background-color: #f8f8f8;*/
+      /*border: 1px solid #ddd;*/
+      border-radius: 5px;
+    }
+    .receipt h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .receipt h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .receipt p {
+      margin: 0;
+    }
+    .receipt .details {
+      margin-top: 20px;
+    }
+    .receipt .details p {
+      display: inline-block;
+      width: 50%;
+      margin-bottom: 5px;
+    }
+    .receipt .details .label {
+      font-weight: bold;
+    }
+    .receipt .details .value {
+      text-align: right;
+    }
+    .receipt .total {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+<div class="receipt">
+  <h1>Massage Therapy Receipt</h1>
+  <h2>Client Name: Catherine Côté</h2>
+  <p>Date: 20/12/2023</p>
+  <div class="details">
+    <p><span class="label">Care Duration:</span> <span class="value">60 min</span></p>
+    <p><span class="label">Amount:</span> <span class="value">$97.73</span></p>
+    <p><span class="label">TPS/GST:</span> <span class="value">789018066RT0001</span></p>
+    <p><span class="label">TVQ/QST:</span> <span class="value">4031877836TQ0001</span></p>
+  </div>
+  <div class="total">
+    Total: $97.73 (Includes taxes)
+  </div>
+  <p>Therapist Professional Address:</p>
+  <p>Axelle Jacques | Tel .: 438-868-0397</p>
+  <p>261 rue Ste Ursule, J5W 1M6</p>
+  <p>L'Assomption, QC, Canada</p>
+  <p>Réseau des massothérapeutes professionnels du Québec</p>
+  <p>Tél .: 1800 461-1312 / rmpq.ca</p>
+  <p>Membership No .: 23-0083-002343</p>
+</div>
+</body>
+</html>
